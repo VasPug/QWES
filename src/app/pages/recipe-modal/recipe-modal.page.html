@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img src = "../assets/menu.jpg">
+    <ion-card-header>
+      <ion-card-title>Menu</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{food}}
+    </ion-card-content>
+  </ion-card>
+</ion-content>

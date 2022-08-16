@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ticker}} Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let tickerr of getMyArray()">
+
+    <ion-card-header>
+      <ion-card-title>{{ticker}}</ion-card-title>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{tickerr.ticker}}
+        <ion-button color="success">{{tickerr.AAPLdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  
+</ion-content>

@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Local Food Trucks</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+    <ion-button expand="block" color="success" fill="outline" routerLink="/diet">
+      <ion-icon name="leaf-outline" slot="start"></ion-icon>
+      Diet Recommendations
+    </ion-button>
+
+  <ion-card (click)='getMenu("Bagaan","Kids Burger,PB & J, Sald, French Fries, Fruit Bows, Half Avocado, Gluten Free Bread")'>
+    <ion-card-header>
+      <ion-img src = "../assets/ampulifoodtruck.jpg"></ion-img>
+      <ion-card-title>Ampuli Food Truck</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Address: 6380 Stoneridge Mall Rd · In Stoneridge Apartments
+      <ion-footer>
+        <ion-row>
+          <ion-col center text-center>
+              5
+              <ion-icon name="star-outline"></ion-icon>
+            
+          </ion-col>
+          <ion-col center text-center>
+            Takeout
+            <ion-icon name="pizza-outline"></ion-icon>
+              
+          
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-card-content>
+
+    
+  </ion-card>
+
+  <ion-card (click)='getMenu("Curry Up Now","Murg Makhani(Butter Chicken), Tandoori Chicken, Chicken Tikka Masal, Mailai Kofta, Chole, Paneer,Daal, Papdi Chaat, Naan")'>
+    <ion-card-header>
+      <ion-img src = "../assets/pinkfoodtruck.jpg"></ion-img>
+      <ion-card-title>Curry Up Now</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Address: 2678 Bishop Dr. San Ramon, CA 94583
+      <ion-footer>
+        <ion-row>
+          <ion-col center text-center>
+              4.7
+              <ion-icon name="star-outline"></ion-icon>
+            
+          </ion-col>
+          <ion-col center text-center>
+            Takeout
+            <ion-icon name="pizza-outline"></ion-icon>
+              
+          
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-card-content>
+
+    
+  </ion-card>
+
+  <ion-card (click)='getMenu("Papa Stalin Pizzaria","Pizza,Hotdogs,French fries,Milk shakes")'>
+    <ion-card-header>
+      <ion-img src = "../assets/pizzafoodtruck.jpg"></ion-img>
+      <ion-card-title>Papa Stalin Pizzeria</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Address: 12355 Alcosta Blvd, San Ramon, CA 94583
+      <ion-footer>
+        <ion-row>
+          <ion-col center text-center>
+              5
+              <ion-icon name="star-outline"></ion-icon>
+            
+          </ion-col>
+          <ion-col center text-center>
+            Takeout
+            <ion-icon name="pizza-outline"></ion-icon>
+              
+          
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-card-content>
+
+    
+  </ion-card>
+</ion-content>

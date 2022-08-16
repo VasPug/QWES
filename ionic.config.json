@@ -1,0 +1,8 @@
+{
+  "name": "Hestia",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

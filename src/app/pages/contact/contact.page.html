@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Important Contacts/News</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-list>
+    <ion-item-sliding>
+      <ion-item>
+        <h1>San Ramon Regional Medical Center</h1>
+      </ion-item>
+      <ion-item-options color="primary">
+        <ion-item-option (click)="call('9252759200')" color="success">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-item-sliding>
+      <ion-item>
+        <h1>Kaiser San Ramon</h1>
+      </ion-item>
+      <ion-item-options color="primary">
+        <ion-item-option (click)="call('9252447400')" color="success">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
+
+    <ion-item-sliding>
+      <ion-item>
+        <h1>Bishop Ranch Pediatrics</h1>
+      </ion-item>
+      <ion-item-options color="primary">
+        <ion-item-option (click)="call('9252753888')" color="success">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Current News</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        Latest News
+      </p>
+      <ion-spinner *ngIf="!data"  name="dots"></ion-spinner>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let dat of data">
+    <ion-img src="{{dat.urlToImage}}"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>{{dat.title}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        {{dat.description}}
+      </p>
+      <ion-button ion-button fill="outline" href="{{dat.url}}" large>Read full article</ion-button>
+
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <img src="assets/seattle.jpg">
+      <ion-card-subtitle>Seattle Times</ion-card-subtitle>
+      <ion-card-title>Coronavirus daily news updates, September 4th: What to know today about COVID-19 in the Seattle area, Washington state and the nation</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Twenty-one of Washington's 39 counties have now been approved to move into the second stage of Gov. Jay Inslee's four-phase coronavirus ...
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <img src="assets/seattle.jpg">
+      <ion-card-subtitle>Seattle Times</ion-card-subtitle>
+      <ion-card-title>Coronavirus daily news updates, September 4th: What to know today about COVID-19 in the Seattle area, Washington state and the nation</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Twenty-one of Washington's 39 counties have now been approved to move into the second stage of Gov. Jay Inslee's four-phase coronavirus ...
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <img src="assets/livecorona.png">
+      <ion-card-subtitle>USA TODAY</ion-card-subtitle>
+      <ion-card-title>Coronavirus live updates: New York opens further for Memorial Day travel; sick hairstylist may have exposed 91; </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      NBA, Disney in talks to resume season at Florida complex as mounting death toll in the U.S. likely to hit 100000 early next week. Saturday's ...
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <img src="assets/usnews.jpg">
+      <ion-card-subtitle>U.S. News & World Report</ion-card-subtitle>
+      <ion-card-title>South African President Says Lockdown to Ease From August 29</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      JOHANNESBURG (Reuters) - President Cyril Ramaphosa announced on Sunday a further easing of South Africa's coronavirus lockdown from ...
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>

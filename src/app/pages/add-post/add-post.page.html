@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Create post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-input placeholder="Title" [(ngModel)]="post.title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea rows="6" [(ngModel)]="post.content" placeholder="Text"></ion-textarea>
+    </ion-item>
+  </ion-list>
+    <ion-button expand="block" type="button" color="secondary" fill="outline"
+    class="ion-padding-horizontal ion-margin-vertical" (click)="addPost()">Create</ion-button>
+  </ion-content>

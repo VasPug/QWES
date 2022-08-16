@@ -1,0 +1,843 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Stock Predictions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="stock" placeholder="TSLA, AAPL..."></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="start" placeholder="Start date Ex: 2019-03-11"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="end" placeholder="End date Ex: 2020-05-12"></ion-input>
+  </ion-item>
+  
+    <ion-button expand="block" fill="outline" (click)="getData()" [disabled] = "!canEnter">
+      <ion-icon slot="start" name="search"></ion-icon>
+      Search
+    </ion-button>
+
+  <canvas baseChart 
+  [datasets]="chartData" 
+  [labels]="chartLabels" 
+  [options]="chartOptions" 
+  [colors]="chartColors"
+  [legend]="showLegend" 
+  [chartType]="chartType">
+  </canvas>
+  <ion-item>
+    <ion-label>Bar chart</ion-label>
+    <ion-toggle (ionChange)="typeChanged($event)" checked></ion-toggle>
+  </ion-item>
+
+  <ion-slides [options]="slideOptsOne">
+
+    <ion-slide >
+      <ion-card *ngFor="let AAPL of _AAPL; index as i">
+        <ion-card-header>
+          <ion-card-title>AAPL</ion-card-title>
+          <ion-card-subtitle>Apple Inc.</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{AAPL.AAPL}}
+            <ion-button color={{AAPL.AAPLcolor}}>{{AAPL.AAPLdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let TSLA of _TSLA; index as i">
+
+        <ion-card-header>
+          <ion-card-title>TSLA</ion-card-title>
+          <ion-card-subtitle>Tesla</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{TSLA.TSLA}}
+            <ion-button color={{TSLA.TSLAcolor}}>{{TSLA.TSLAdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let GOOG of _GOOG; index as i">
+
+        <ion-card-header>
+          <ion-card-title>GOOG</ion-card-title>
+          <ion-card-subtitle>Alphabet Inc. (no vote)</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{GOOG.GOOG}}
+            <ion-button color={{GOOG.GOOGcolor}}>{{GOOG.GOOGdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let GOOGL of _GOOGL; index as i">
+
+        <ion-card-header>
+          <ion-card-title>GOOGL</ion-card-title>
+          <ion-card-subtitle>Alphabet Inc. (one vote)</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{GOOGL.GOOGL}}
+            <ion-button color={{GOOGL.GOOGLcolor}}>{{GOOGL.GOOGLdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+    
+    <ion-slide >
+      <ion-card *ngFor="let FB of _FB; index as i">
+
+        <ion-card-header>
+          <ion-card-title>FB</ion-card-title>
+          <ion-card-subtitle>Facebook</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{FB.FB}}
+            <ion-button color={{FB.FBcolor}}>{{FB.FBdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let AMZN of _AMZN; index as i">
+
+        <ion-card-header>
+          <ion-card-title>AMZN</ion-card-title>
+          <ion-card-subtitle>Amazon</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{AMZN.AMZN}}
+            <ion-button color={{AMZN.AMZNcolor}}>{{AMZN.AMZNdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let AMD of _AMD; index as i">
+
+        <ion-card-header>
+          <ion-card-title>AMD</ion-card-title>
+          <ion-card-subtitle>AMD</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{AMD.AMD}}
+            <ion-button color={{AMD.AMDcolor}}>{{AMD.AMDdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let F of _F; index as i">
+
+        <ion-card-header>
+          <ion-card-title>F</ion-card-title>
+          <ion-card-subtitle>Ford</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{F.F}}
+            <ion-button color={{F.Fcolor}}>{{F.Fdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let GE of _GE; index as i">
+
+        <ion-card-header>
+          <ion-card-title>GE</ion-card-title>
+          <ion-card-subtitle>General Electrics</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{GE.GE}}
+            <ion-button color={{GE.GEcolor}}>{{GE.GEdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+     
+  <ion-card *ngFor="let DIS of _DIS; index as i">
+
+    <ion-card-header>
+      <ion-card-title>DIS</ion-card-title>
+      <ion-card-subtitle>Disney</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{DIS.DIS}}
+        <ion-button color={{DIS.DIScolor}}>{{DIS.DISdiff}}</ion-button>
+      </ion-item>
+
+      </ion-list>
+     </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let BAC of _BAC; index as i">
+
+        <ion-card-header>
+          <ion-card-title>BAC</ion-card-title>
+          <ion-card-subtitle>Bank of America</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{BAC.BAC}}
+            <ion-button color={{BAC.BACcolor}}>{{BAC.BACdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let COOP of _COOP; index as i">
+
+        <ion-card-header>
+          <ion-card-title>COOP</ion-card-title>
+          <ion-card-subtitle>Cooper Group Inc.</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{COOP.COOP}}
+            <ion-button color={{COOP.COOPcolor}}>{{COOP.COOPdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let BA of _BA; index as i">
+
+        <ion-card-header>
+          <ion-card-title>BA</ion-card-title>
+          <ion-card-subtitle>Boeing</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{BA.BA}}
+            <ion-button color={{BA.BAcolor}}>{{BA.BAdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let GPRO of _GPRO; index as i">
+
+        <ion-card-header>
+          <ion-card-title>GPRO</ion-card-title>
+          <ion-card-subtitle>Gopro</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{GPRO.GPRO}}
+            <ion-button color={{GPRO.GPROcolor}}>{{GPRO.GPROdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let L of _L; index as i">
+
+        <ion-card-header>
+          <ion-card-title>L</ion-card-title>
+          <ion-card-subtitle>Loews</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{L.L}}
+            <ion-button color={{L.Lcolor}}>{{L.Ldiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let MSFT of _MSFT; index as i">
+
+        <ion-card-header>
+          <ion-card-title>MSFT</ion-card-title>
+          <ion-card-subtitle>Microsoft</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{MSFT.MSFT}}
+            <ion-button color={{MSFT.MSFTcolor}}>{{MSFT.MSFTdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let NVDA of _NVDA; index as i">
+
+        <ion-card-header>
+          <ion-card-title>NVDA</ion-card-title>
+          <ion-card-subtitle>Nvidia</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{NVDA.NVDA}}
+            <ion-button color={{NVDA.NVDAcolor}}>{{NVDA.NVDAdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let SNAP of _SNAP; index as i">
+
+        <ion-card-header>
+          <ion-card-title>SNAP</ion-card-title>
+          <ion-card-subtitle>Snapchat</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{SNAP.SNAP}}
+            <ion-button color={{SNAP.SNAPcolor}}>{{SNAP.SNAPdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let SPY of _SPY; index as i">
+
+        <ion-card-header>
+          <ion-card-title>SPY</ion-card-title>
+          <ion-card-subtitle>Spy</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{SPY.SPY}}
+            <ion-button color={{SPY.SPYcolor}}>{{SPY.SPYdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let TWTR of _TWTR; index as i">
+
+        <ion-card-header>
+          <ion-card-title>TWTR</ion-card-title>
+          <ion-card-subtitle>Twitter</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{TWTR.TWTR}}
+            <ion-button color={{TWTR.TWTRcolor}}>{{TWTR.TWTRdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let UBER of _UBER; index as i">
+
+        <ion-card-header>
+          <ion-card-title>UBER</ion-card-title>
+          <ion-card-subtitle>Uber</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{UBER.UBER}}
+            <ion-button color={{UBER.UBERcolor}}>{{UBER.UBERdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let VOO of _VOO; index as i">
+
+        <ion-card-header>
+          <ion-card-title>VOO</ion-card-title>
+          <ion-card-subtitle>Voo</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{VOO.VOO}}
+            <ion-button color={{VOO.VOOcolor}}>{{VOO.VOOdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    
+    </ion-slide>
+
+    <ion-slide >
+      <ion-card *ngFor="let ZM of _ZM; index as i">
+
+        <ion-card-header>
+          <ion-card-title>ZM</ion-card-title>
+          <ion-card-subtitle>Zoom</ion-card-subtitle>
+        </ion-card-header>
+        <ion-list>
+          <ion-item slot = "end">
+            <ion-label>Predicted stock price</ion-label>
+            ${{ZM.ZM}}
+            <ion-button color={{ZM.ZMcolor}}>{{ZM.ZMdiff}}</ion-button>
+          </ion-item>
+    
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-card *ngFor="let AAPL of _AAPL; index as i"  (click)="findStock('AAPL')">
+
+    <ion-card-header>
+      <ion-card-title>AAPL</ion-card-title>
+      <ion-card-subtitle>Apple Inc.</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{AAPL.AAPL}}
+        <ion-button color={{AAPL.AAPLcolor}} >{{AAPL.AAPLdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let TSLA of _TSLA; index as i" (click)="findStock('TSLA')">
+
+    <ion-card-header>
+      <ion-card-title>TSLA</ion-card-title>
+      <ion-card-subtitle>Tesla</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{TSLA.TSLA}}
+        <ion-button color={{TSLA.TSLAcolor}} >{{TSLA.TSLAdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let GOOG of _GOOG; index as i"  (click)="findStock('GOOG')">
+
+    <ion-card-header>
+      <ion-card-title>GOOG</ion-card-title>
+      <ion-card-subtitle>Alphabet Inc. (no vote)</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{GOOG.GOOG}}
+        <ion-button color={{GOOG.GOOGcolor}}>{{GOOG.GOOGdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let GOOGL of _GOOGL; index as i" (click)="findStock('GOOGL')">
+
+    <ion-card-header>
+      <ion-card-title>GOOGL</ion-card-title>
+      <ion-card-subtitle>Alphabet Inc. (one vote)</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{GOOGL.GOOGL}}
+        <ion-button color={{GOOGL.GOOGLcolor}} >{{GOOGL.GOOGLdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+  
+  <ion-card *ngFor="let FB of _FB; index as i" (click)="findStock('FB')">
+
+    <ion-card-header>
+      <ion-card-title>FB</ion-card-title>
+      <ion-card-subtitle>Facebook</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{FB.FB}}
+        <ion-button color={{FB.FBcolor}} >{{FB.FBdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let AMZN of _AMZN; index as i"  (click)="findStock('AMZN')">
+
+    <ion-card-header>
+      <ion-card-title>AMZN</ion-card-title>
+      <ion-card-subtitle>Amazon</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{AMZN.AMZN}}
+        <ion-button color={{AMZN.AMZNcolor}}>{{AMZN.AMZNdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let AMD of _AMD; index as i" (click)="findStock('AMD')">
+
+    <ion-card-header>
+      <ion-card-title>AMD</ion-card-title>
+      <ion-card-subtitle>AMD</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{AMD.AMD}}
+        <ion-button color={{AMD.AMDcolor}} >{{AMD.AMDdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let F of _F; index as i" (click)="findStock('F')">
+
+    <ion-card-header>
+      <ion-card-title>F</ion-card-title>
+      <ion-card-subtitle>Ford</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{F.F}}
+        <ion-button color={{F.Fcolor}} >{{F.Fdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let GE of _GE; index as i" (click)="findStock('GE')">
+
+    <ion-card-header>
+      <ion-card-title>GE</ion-card-title>
+      <ion-card-subtitle>General Electrics</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{GE.GE}}
+        <ion-button color={{GE.GEcolor}}>{{GE.GEdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let DIS of _DIS; index as i" (click)="findStock('DIS')">
+
+    <ion-card-header>
+      <ion-card-title>DIS</ion-card-title>
+      <ion-card-subtitle>Disney</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{DIS.DIS}}
+        <ion-button color={{DIS.DIScolor}}>{{DIS.DISdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let BAC of _BAC; index as i" (click)="findStock('BAC')">
+
+    <ion-card-header>
+      <ion-card-title>BAC</ion-card-title>
+      <ion-card-subtitle>Bank of America</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{BAC.BAC}}
+        <ion-button color={{BAC.BACcolor}}>{{BAC.BACdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let COOP of _COOP; index as i" (click)="findStock('COOP')">
+
+    <ion-card-header>
+      <ion-card-title>COOP</ion-card-title>
+      <ion-card-subtitle>Cooper Group Inc.</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{COOP.COOP}}
+        <ion-button color={{COOP.COOPcolor}}>{{COOP.COOPdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let BA of _BA; index as i" (click)="findStock('BA')">
+
+    <ion-card-header>
+      <ion-card-title>BA</ion-card-title>
+      <ion-card-subtitle>Boeing</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{BA.BA}}
+        <ion-button color={{BA.BAcolor}}>{{BA.BAdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let GPRO of _GPRO; index as i" (click)="findStock('GPRO')">
+
+    <ion-card-header>
+      <ion-card-title>GPRO</ion-card-title>
+      <ion-card-subtitle>Gopro</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{GPRO.GPRO}}
+        <ion-button color={{GPRO.GPROcolor}}>{{GPRO.GPROdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let L of _L; index as i" (click)="findStock('L')">
+
+    <ion-card-header>
+      <ion-card-title>L</ion-card-title>
+      <ion-card-subtitle>Loews</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{L.L}}
+        <ion-button color={{L.Lcolor}}>{{L.Ldiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let MSFT of _MSFT; index as i" (click)="findStock('MSFT')">
+
+    <ion-card-header>
+      <ion-card-title>MSFT</ion-card-title>
+      <ion-card-subtitle>Microsoft</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{MSFT.MSFT}}
+        <ion-button color={{MSFT.MSFTcolor}}>{{MSFT.MSFTdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let NVDA of _NVDA; index as i" (click)="findStock('NVDA')">
+
+    <ion-card-header>
+      <ion-card-title>NVDA</ion-card-title>
+      <ion-card-subtitle>Nvidia</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{NVDA.NVDA}}
+        <ion-button color={{NVDA.NVDAcolor}}>{{NVDA.NVDAdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+  <ion-card *ngFor="let SNAP of _SNAP; index as i" (click)="findStock('SNAP')">
+
+    <ion-card-header>
+      <ion-card-title>SNAP</ion-card-title>
+      <ion-card-subtitle>Snapchat</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{SNAP.SNAP}}
+        <ion-button color={{SNAP.SNAPcolor}}>{{SNAP.SNAPdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let SPY of _SPY; index as i" (click)="findStock('SPY')">
+
+    <ion-card-header>
+      <ion-card-title>SPY</ion-card-title>
+      <ion-card-subtitle>Spy</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{SPY.SPY}}
+        <ion-button color={{SPY.SPYcolor}}>{{SPY.SPYdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let TWTR of _TWTR; index as i" (click)="findStock('TWTR')">
+
+    <ion-card-header>
+      <ion-card-title>TWTR</ion-card-title>
+      <ion-card-subtitle>Twitter</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{TWTR.TWTR}}
+        <ion-button color={{TWTR.TWTRcolor}}>{{TWTR.TWTRdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let UBER of _UBER; index as i" (click)="findStock('UBER')">
+
+    <ion-card-header>
+      <ion-card-title>UBER</ion-card-title>
+      <ion-card-subtitle>Uber</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{UBER.UBER}}
+        <ion-button color={{UBER.UBERcolor}}>{{UBER.UBERdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let VOO of _VOO; index as i" (click)="findStock('VOO')">
+
+    <ion-card-header>
+      <ion-card-title>VOO</ion-card-title>
+      <ion-card-subtitle>Voo</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{VOO.VOO}}
+        <ion-button color={{VOO.VOOcolor}}>{{VOO.VOOdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let ZM of _ZM; index as i" (click)="findStock('ZM')">
+
+    <ion-card-header>
+      <ion-card-title>ZM</ion-card-title>
+      <ion-card-subtitle>Zoom</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list>
+      <ion-item slot = "end">
+        <ion-label>Predicted stock price</ion-label>
+        ${{ZM.ZM}}
+        <ion-button color={{ZM.ZMcolor}}>{{ZM.ZMdiff}}</ion-button>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngFor="let article of articles">
+    <ion-img [src]="article.urlToImage"></ion-img>
+      <ion-card-header>
+        <ion-card-subtitle>{{article.publishedAt | date }}</ion-card-subtitle>
+        <ion-card-title>{{article.title}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>{{article.description}}</ion-card-content>
+  </ion-card>  
+
+</ion-content>
